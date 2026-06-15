@@ -1,0 +1,5 @@
+python -bin/virtualenv venv
+   # En Windows:
+   venv\Scripts\activate
+   # En Linux/Mac:
+   source venv/bin/activate

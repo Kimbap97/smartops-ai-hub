@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SmartOps AI Hub - Dashboard de Elite</title>
+        <link rel="stylesheet" href="/static/css/style.css" />
+    </head>
+    <body>
+        <div class="app-container">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="logo-area">
+                    <div class="logo-icon"></div>
+                    <h2>SmartOps AI</h2>
+                </div>
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item active">
+                        <span class="icon">📊</span> Panel Central
+                    </a>
+                    <a
+                        href="https://github.com"
+                        target="_blank"
+                        class="nav-item"
+                    >
+                        <span class="icon">🐙</span> Repositorio GitHub
+                    </a>
+                    <a
+                        href="https://gitlab.com"
+                        target="_blank"
+                        class="nav-item"
+                    >
+                        <span class="icon">🦊</span> GitLab Source
+                    </a>
+                </nav>
+                <div class="sidebar-footer">
+                    <p>Stack: Híbrido SQL / NoSQL</p>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="main-content">
+                <header class="top-header">
+                    <h1>Orquestador de Automatizaciones Autónomas</h1>
+                    <div class="badge-system">Core Engine Connected</div>
+                </header>
+
+                <div class="dashboard-grid">
+                    <!-- Columna Izquierda: Input de Datos -->
+                    <div class="panel card">
+                        <h3>Entrada de logs o comunicaciones del sistema</h3>
+                        <p class="panel-desc">
+                            La IA procesará el flujo, derivará una acción en
+                            tiempo real, auditará en MongoDB (NoSQL) y
+                            estructurará métricas en base de datos Relacional.
+                        </p>
+
+                        <form id="ai-automation-form">
+                            {% csrf_token %}
+                            <textarea
+                                id="ai-raw-input"
+                                placeholder="Ejemplo: Error crítico en el servidor de base de datos. El microservicio de pagos ha caído..."
+                            ></textarea>
+                            <button type="submit" class="btn-trigger">
+                                Ejecutar Pipeline Inteligente
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Columna Derecha: Output Asíncrono de la IA -->
+                    <div class="panel card output-panel">
+                        <h3>Consola de Procesamiento Asíncrono</h3>
+                        <div id="ai-console-output" class="console-placeholder">
+                            <div class="pulse-icon">🤖</div>
+                            <p>Esperando trigger de datos de entrada...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de datos persistidos en SQL -->
+                <div class="panel card table-panel">
+                    <h3>
+                        Últimos eventos registrados en la Base de Datos
+                        Relacional (SQL)
+                    </h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID Transacción</th>
+                                    <th>Acción Ejecutada</th>
+                                    <th>Categoría Detectada</th>
+                                    <th>Sentimiento</th>
+                                    <th>MongoDB Hash ID</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sql-table-body">
+                                {% for action in recent_actions %}
+                                <tr>
+                                    <td>#{{ action.id }}</td>
+                                    <td>{{ action.action_name }}</td>
+                                    <td>
+                                        <span class="tag-cat"
+                                            >{{ action.category_detected
+                                            }}</span
+                                        >
+                                    </td>
+                                    <td>{{ action.sentiment_score }}</td>
+                                    <td class="mono-text">
+                                        {{ action.mongo_log_id|slice:":15" }}...
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr id="no-data-row">
+                                    <td
+                                        colspan="5"
+                                        style="
+                                            text-align: center;
+                                            color: #a0aec0;
+                                        "
+                                    >
+                                        Ninguna ejecución en el ciclo actual.
+                                        Envía el formulario para popular la base
+                                        de datos SQL.
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <script src="/static/js/dashboard.js"></script>
+    </body>
+</html>
